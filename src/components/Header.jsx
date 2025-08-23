@@ -33,7 +33,7 @@ function Header() {
                         <div>
                             <Link to={"/mobileSearchPage"}
                                 aria-label="Search"
-                                className="text-gray-600 hover:text-gray-900 transition block md:hidden"
+                                className="text-gray-600 hover:text-gray-900 transition block sm:hidden"
                             >
                                 <i className="fas fa-search fa-lg"></i>
                             </Link>
@@ -41,7 +41,7 @@ function Header() {
                                 <button
                                     onClick={() => setShowSearch(prev => !prev)}
                                     aria-label="Search"
-                                    className="text-gray-600 hover:text-gray-900 transition hidden md:block"
+                                    className="text-gray-600 hover:text-gray-900 transition hidden sm:block"
                                 >
                                     <i className="fas fa-search fa-lg"></i>
                                 </button>
@@ -58,9 +58,9 @@ function Header() {
                         </div>
 
 
-                        <a href="profile.html" aria-label="User Account" className="text-gray-600 hover:text-gray-900 transition">
+                        <Link to={"/profilePage"} aria-label="User Account" className="text-gray-600 hover:text-gray-900 transition">
                             <i className="fas fa-user fa-lg"></i>
-                        </a>
+                        </Link>
 
                         <Link to={"/cart"} aria-label="Shopping Cart" className="text-gray-600 hover:text-gray-900 transition relative">
                             <i className="fas fa-shopping-cart fa-lg"></i>

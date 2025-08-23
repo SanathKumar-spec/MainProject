@@ -4,54 +4,80 @@ import { FaCheck } from 'react-icons/fa';
 import Notification from './Notification';
 import { Link } from 'react-router-dom';
 
-   export const Products = [
-        {
-            "category-id": "sample-chair-1",
-            name: "Elegant Armchair",
-            type:"chair",
-            description: "Comfortable armchair with soft fabric and wooden legs.",
-            price: "249",
-            image: "https://storage.googleapis.com/a1aa/image/79394918-a7af-4ac2-1561-39a957ace7c7.jpg",
-        },
-        {
-            "category-id": "sample-table-2",
-            name: "Wooden Dining Table",
-            type:"table",
-            description: "Spacious dining table made from premium oak wood.",
-            price: "499",
-            image: "https://storage.googleapis.com/a1aa/image/98bf393b-1f89-45d9-3fc8-18f01ae2445a.jpg"
-        },
-        {
-            "category-id": "sample-sofa-3",
-            name: "Modern Sofa",
-            type:"sofa",
-            description: "Sleek and comfortable sofa perfect for any living room.",
-            price: "799",
-            image: "https://storage.googleapis.com/a1aa/image/01880a10-ca08-4ccc-bcbd-6c8ea2d0b732.jpg"
-        },
-        {
-            "category-id": "sample-storage-4",
-            name: "Storage Cabinet",
-            type:"storage",
-            description: "Stylish cabinet with ample storage space for your home.",
-            price: "349",
-            image: "https://storage.googleapis.com/a1aa/image/b7d4b510-e943-43ae-f651-5356ad82f2e1.jpg"
-        }
-    ];
+
+
+export const Products = [
+    {
+        id: "sample-chair-1",
+        name: "Elegant Armchair",
+        type: "chair",
+        description: "Comfortable armchair with soft fabric and wooden legs.",
+        price: "249",
+        image_path: "https://storage.googleapis.com/a1aa/image/79394918-a7af-4ac2-1561-39a957ace7c7.jpg",
+    },
+    {
+        id: "sample-table-2",
+        name: "Wooden Dining Table",
+        type: "table",
+        description: "Spacious dining table made from premium oak wood.",
+        price: "499",
+        image_path: "https://storage.googleapis.com/a1aa/image/98bf393b-1f89-45d9-3fc8-18f01ae2445a.jpg"
+    },
+    {
+        id: "sample-sofa-3",
+        name: "Modern Sofa",
+        type: "sofa",
+        description: "Sleek and comfortable sofa perfect for any living room.",
+        price: "799",
+        image_path: "https://storage.googleapis.com/a1aa/image/01880a10-ca08-4ccc-bcbd-6c8ea2d0b732.jpg"
+    },
+    {
+        id: "sample-storage-4",
+        name: "Storage Cabinet",
+        type: "storage",
+        description: "Stylish cabinet with ample storage space for your home.",
+        price: "349",
+        image_path: "https://storage.googleapis.com/a1aa/image/b7d4b510-e943-43ae-f651-5356ad82f2e1.jpg"
+    }
+];
 
 function Body() {
+    const[email, setEmail] = useState("");
+    const[message, setMessage] = useState("");
+    const[type, setType] = useState("")
+    const[showNotification, setShowNotification] = useState(false);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    
+    const handleSubscribe = () => {
+        if(emailPattern.test(email)){
+            setMessage("Thanks for subscribing")
+            setType("success")
+        }
+        else if(email === ""){
+            setMessage("Enter an email")
+            setType("error")
+        }else{
+            setMessage("Enter a valid email")
+            setType("error")
+        
+        }
+        setShowNotification(true)
+        setTimeout(() => setShowNotification(false), 2000)
+        
+    }
+
+
+
     function Product({ item }) {
         const [showNotification, setShowNotification] = useState(false);
         const addToCart = () => {
             let cart = JSON.parse(sessionStorage.getItem("cart"));
             if (!Array.isArray(cart)) cart = [];
-            const existingItem = cart.find(i => i["category-id"] === item["category-id"]);
+            const existingItem = cart.find(i => i.id === item.id);
 
             if (existingItem) {
                 cart = cart.map(i =>
-                    i["category-id"] === item["category-id"] ? { ...i, qty: i.qty + 1 } : i
+                    i.id === item.id ? { ...i, qty: i.qty + 1 } : i
                 );
             } else {
                 cart.push({ ...item, qty: 1 });
@@ -61,13 +87,15 @@ function Body() {
             setTimeout(() => setShowNotification(false), 2000);
         };
 
+
+
         return (
-            
+
             <article className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
                 <img
                     alt={item.name}
                     className="w-full h-48 object-cover"
-                    src={item.image}
+                    src={item.image_path}
                 />
                 <div className="p-4">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -83,7 +111,7 @@ function Body() {
                         >
                             Add to Cart
                         </button>
-                        <Notification message="Item added to cart" visible={showNotification} />
+                        <Notification message="Item added to cart" visible={showNotification}/>
                     </div>
                 </div>
             </article>
@@ -97,7 +125,7 @@ function Body() {
 
         <div className="flex justify-center ">
             <main className="w-full  md:max-w-7xl mx-auto">
-            
+
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-5">
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6">
@@ -243,20 +271,21 @@ function Body() {
                         <p className="mb-8 max-w-xl mx-auto">
                             Get the latest updates on new products and upcoming sales.
                         </p>
-                        <form action="#" className="max-w-md mx-auto flex flex-col sm:flex-row gap-4" method="POST">
+                        <form action="#" className="max-w-md mx-auto flex flex-col sm:flex-row gap-4" onClick={(e) => {e.preventDefault(); handleSubscribe();}}>
                             <label className="sr-only text-white-200" htmlFor="email">
                                 Email address
                             </label>
-                            <input className="text-white flex-grow px-4 py-3 rounded-md  focus:outline-none focus:ring-2 focus:ring-gray-300 border border-white" id="email" name="email" placeholder="Enter your email" required="" type="email" />
-                            <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-md hover:bg-gray-200 transition" type="submit">
+                            <input onChange={(e) => setEmail(e.target.value)} className="text-white flex-grow px-4 py-3 rounded-md  focus:outline-none focus:ring-2 focus:ring-gray-300 border border-white" id="email" name="email" placeholder="Enter your email" required="" type="email"  />
+                            <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-md hover:bg-gray-200 transition">
                                 Subscribe
                             </button>
+                            <Notification message={message} visible={showNotification} type={type}/>
                         </form>
                     </section>
                 </section>
             </main>
         </div>
-        
+
     );
 }
 

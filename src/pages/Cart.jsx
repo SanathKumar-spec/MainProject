@@ -6,7 +6,6 @@ import { FaTrash } from "react-icons/fa";
 function Cart() {
   const [cart, setCart] = useState([]);
 
-  // Load cart from sessionStorage on mount
   useEffect(() => {
     const savedCart = JSON.parse(sessionStorage.getItem("cart"));
     setCart(Array.isArray(savedCart) ? savedCart : []);
@@ -94,7 +93,7 @@ function Cart() {
         </div>
 
         {cart.length > 0 && (
-          <div className="w-full md:w-[300px] h-full px-6 py-5 rounded-lg shadow-2xl mt-4 md:mt-0 flex flex-col items-center">
+          <div className="w-full md:w-[300px] max-h-fit px-6 py-5 rounded-lg shadow-2xl mt-4 md:mt-0 flex flex-col items-center">
             <h1 className="font-bold text-lg">Confirm Your Order</h1>
             <p className="mt-2 text-center whitespace-nowrap">
               Subtotal (

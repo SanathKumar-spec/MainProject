@@ -39,8 +39,8 @@ function MobileSearchPage() {
         <div className='grid grid-cols-3 gap-3 m-5'>
           {loading ? (
             <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-  Loading...
-</p>
+              Loading...
+            </p>
           ) : (
             randomProducts.map((product) => (
               <div key={product.id} className='shadow-lg rounded'>
